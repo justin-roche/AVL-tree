@@ -2,8 +2,8 @@
 (function(){
 
 var margin = {top: 40, right: 120, bottom: 20, left: 120},
-  width = 2000;
-  height = 2000; //500 - margin.top - margin.bottom;
+  width = 800;
+  height = 800; //500 - margin.top - margin.bottom;
   
 var i = 0;
 
@@ -46,7 +46,16 @@ function update(source) {
     .on('click',function(){
       debugger;
     })
-    .style("fill", function(d){if(d._color){return d._color; }else{return "#fff"};});
+    .style("fill", function(d){
+      {return "#fff"};
+    })
+    .style("stroke",function(d){
+      if(d.flag){
+        return app.flagColors[d.flag];
+      } else {
+        return 'black';
+      }
+    });
 
   //add the text
   nodeEnter.append("text")
@@ -55,6 +64,18 @@ function update(source) {
     .attr("dy", ".35em")
     .attr("text-anchor", "middle")
     .text(function(d) { return d.v; })
+    .style("fill-opacity", 1);
+
+  nodeEnter.append("text")
+    .attr("y", function(d) { 
+      return -10; })
+    .attr("x", function(d) { 
+      return 30;
+    })
+    .attr("dy", "10px")
+    .style("text-color","green")
+    .attr("text-anchor", "middle")
+    .text(function(d) { return d.height; })
     .style("fill-opacity", 1);
 
   // Declare the links…(as DOM elements)
@@ -69,9 +90,8 @@ function update(source) {
 
 }
 
-app.update = function(t){
-  var treeData = t;
-  root = treeData[0];
+app.update = function(start){
+  root = start;
   update(root);
 }
 

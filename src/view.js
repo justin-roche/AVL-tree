@@ -1,21 +1,49 @@
 (function(){
+
+	var tree = null;
+
+	document.addEventListener("DOMContentLoaded", function(event) { 
+  		init();
+	});
+
+	function init(){
+		app.debug = true; 
+		tree = new app.AVLTree();
+		tree.add([1,2,3]);
+		app.update(tree.start());
+	}
 	
-	var t = new app.AVLTree();
-
-	t.add(randArray(100));
-
-	app.update([t.start()])
-	
-
-	function randArray(size){
-		var a = [];
-
-		for(var i = 0; i<size;i++){
-			a.push(Math.floor(Math.random()*100));
+	var lastNodes = [];
+	function drawStep(type,...nodes){
+		if (app.debug === true){
+			draw();
 		}
-		console.log(a);
-		return a; 
 
+		function draw(){
+			lastNodes.forEach(function(n){
+				n.flag = null;
+			})
+			lastNodes = [];
+
+			nodes.forEach(function(n){
+				n.flag = type || null; 
+				lastNodes.push(n);
+			})
+
+			debugger;
+			app.update(tree.start());
+			debugger;
+		}
+	}
+
+	app.drawStep = drawStep; 
+
+	app.flagColors = {
+		balance: 'blue',
+		recent: 'green',
+		height: 'orange',
+		search: 'red',
+		rotate: 'purple',
 	}
 
 })()
